@@ -12,7 +12,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '5500');
 app.set('port', port);
 
 /**
@@ -20,6 +20,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+//http.createServer(app) 메소드는 서버를 생성하는 작업을 하고 난 후 생성한 서버 객체를 리턴 > 생성된 서버 제어
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -58,9 +59,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -83,8 +82,6 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
