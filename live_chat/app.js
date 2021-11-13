@@ -18,10 +18,9 @@ const io = require('socket.io')(8080, {
 
 io.on('connection', (socket) => {
   console.log(socket.id, 'CONNECTED');
-  socket.emit('msg', `${socket.id} 연결 되었습니다.`);
   socket.on('message', (data) => {
     console.log(socket.id, data);
-    socket.emit('msg', `Server : ${data} `);
+    socket.emit('message', { data });
   });
 });
 

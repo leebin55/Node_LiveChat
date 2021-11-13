@@ -1,16 +1,17 @@
 import './App.css';
-import { io } from 'socket.io-client';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Join from './component/Join/Join.jsx';
+import Chat from './component/Chat/Chat.jsx';
 
-const socket = io('http://localhost:8080'); // connect server
-socket.on('connect', () => {
-  displayMessage('');
-});
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header"></header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" exact element={<Join />} />
+        <Route path="/chat" element={<Chat />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
