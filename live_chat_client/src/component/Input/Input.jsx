@@ -9,13 +9,15 @@ function Input({ setMessage, sendMessage, message }) {
         type="text"
         placeholder="Type a message..."
         value={message}
-        onChang={(e) => setMessage(e.target.value)}
+        onChange={(e) => setMessage(e.target.value)}
         onKeyPress={(e) => (e.key === 'Enter' ? sendMessage(e) : null)}
       />
       <button
-        type="button"
         className="sendButton"
-        onClick={(e) => sendMessage(e)}
+        onClick={(e) => {
+          console.log('send button clicked');
+          sendMessage(e);
+        }}
       >
         Send
       </button>
