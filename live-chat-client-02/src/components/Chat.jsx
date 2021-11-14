@@ -1,43 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 
-function Chat({ username, room, socket }) {
+function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState('');
-  const [msgList, setMsgList] = useState([]);
+  const [messageList, setMessageList] = useState([]);
 
+  const joined_chat = async () => {
+    await socket.on('notice_join', (username) => {
+      console.log(`${username} joined this chat room`);
+    });
+  };
   const sendMessage = async () => {
-    if (currentMessage.trim !== '') {
-      const msgData = {
+    if (currentMessage !== '') {
+      const messageData = {
         room: room,
         author: username,
         message: currentMessage,
         time:
           new Date(Date.now()).getHours() +
-          ' : ' +
+          ':' +
           new Date(Date.now()).getMinutes(),
       };
-      await socket.emit('send_message', msgData);
-      setMsgList((list) => [...list, msgData]);
+
+      await socket.emit('send_message', messageData);
+      setMessageList((list) => [...list, messageData]);
       setCurrentMessage('');
     }
   };
+
   useEffect(() => {
-    socket.on(
-      'receive_message',
-      (data) => {
-        setMsgList((list) => [...list, data]);
-      },
-      [socket]
-    );
-  });
+    socket.on('receive_message', (data) => {
+      //alert(data);
+      setMessageList((list) => [...list, data]);
+    });
+  }, [socket]);
+
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <p>{room}</p>
+        <p>Welcome to '{room}' </p>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">
-          {msgList.map((messageContent) => {
+          {messageList.map((messageContent) => {
             return (
               <div
                 className="message"
@@ -61,7 +66,7 @@ function Chat({ username, room, socket }) {
         <input
           type="text"
           value={currentMessage}
-          placeholder="Type any word here"
+          placeholder="Type any word here..."
           onChange={(event) => {
             setCurrentMessage(event.target.value);
           }}

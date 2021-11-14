@@ -11,10 +11,12 @@ function App() {
   const [showChat, setShowChat] = useState(false);
 
   const joinRoom = () => {
-    if (username.trim !== '' && room.trim !== '') {
-      socket.emit('join_room', { room, username });
-      setShowChat(true);
+    if (username === '' || room === '') {
+      alert('You must input Name and Room id');
+      return;
     }
+    socket.emit('join_room', { room, username });
+    setShowChat(true);
   };
 
   return (
