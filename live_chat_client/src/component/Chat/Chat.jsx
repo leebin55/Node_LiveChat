@@ -8,9 +8,7 @@ import Messages from '../Msgs/Messages';
 import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
 
-const socket = io.connect('http://localhost:5000', {
-  withCredentials: true,
-});
+const socket = io.connect('http://localhost:5500');
 
 const Chat = () => {
   const [name, setName] = useState('');
@@ -18,6 +16,7 @@ const Chat = () => {
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
+  const [showChat, setShowChat] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
