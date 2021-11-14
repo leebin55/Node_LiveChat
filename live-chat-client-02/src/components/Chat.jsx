@@ -33,6 +33,9 @@ function Chat({ socket, username, room }) {
       //alert(data);
       setMessageList((list) => [...list, data]);
     });
+    socket.on('notice_join', (username) => {
+      console.log(`${username} joined this chat room`);
+    });
   }, [socket]);
 
   return (

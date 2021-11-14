@@ -2,6 +2,7 @@ import './App.css';
 import io from 'socket.io-client';
 import { useState } from 'react';
 import Chat from './components/Chat';
+import Join from './components/Join';
 
 const socket = io.connect('http://localhost:5500');
 
@@ -22,28 +23,7 @@ function App() {
   return (
     <div className="App">
       {!showChat ? (
-        // showChat이 false이면 joinChatContainer보이기
-        <div className="joinChatContainer">
-          <h1> Join A Chat</h1>
-          <input
-            type="text"
-            placeholder="Name"
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Room ID"
-            onChange={(e) => {
-              setRoom(e.target.value);
-            }}
-            onKeyDown={(e) => {
-              e.key === 'Enter' && joinRoom();
-            }}
-          />
-          <button onClick={joinRoom}>Join A Room</button>
-        </div>
+        <Join setUsername={setUsername} setRoom={setRoom} joinRoom={joinRoom} />
       ) : (
         <Chat socket={socket} username={username} room={room} />
       )}
