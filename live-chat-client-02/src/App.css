@@ -63,16 +63,18 @@ body {
   border-radius: 6px;
   background: #263238;
   position: relative;
-  cursor: pointer;
 }
-.chat-window .chat-header p {
-  display: block;
+.chat-span {
+  display: inline-block;
   padding: 0 1em 0 2em;
   color: #fff;
   font-weight: 700;
   line-height: 45px;
 }
-
+.chat-exit:hover {
+  cursor: pointer;
+  color: #43a047;
+}
 .chat-window .chat-body {
   height: calc(450px - (45px + 70px));
   border: 1px solid #263238;

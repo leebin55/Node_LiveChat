@@ -41,7 +41,8 @@ function Chat({ socket, username, room }) {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <p>Welcome to '{room}' </p>
+        <span className="chat-span chat-exit"> ⇦ </span>
+        <span className="chat-span">Welcome to ' {room} ' </span>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">

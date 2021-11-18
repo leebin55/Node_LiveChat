@@ -3,17 +3,17 @@ import React from 'react';
 function Join({ setUsername, setRoom, joinRoom }) {
   return (
     <div className="joinChatContainer">
-      <h1> Join A Chat</h1>
+      <h1> 채팅방 입장하기 </h1>
       <input
         type="text"
-        placeholder="Name"
+        placeholder="이름"
         onChange={(e) => {
           setUsername(e.target.value);
         }}
       />
       <input
         type="text"
-        placeholder="Room ID"
+        placeholder="채팅방 이름"
         onChange={(e) => {
           setRoom(e.target.value);
         }}
