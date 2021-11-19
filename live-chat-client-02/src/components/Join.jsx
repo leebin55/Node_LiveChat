@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Join({ setUsername, setRoom, joinRoom }) {
   return (
@@ -18,7 +18,7 @@ function Join({ setUsername, setRoom, joinRoom }) {
           setRoom(e.target.value);
         }}
         onKeyDown={(e) => {
-          e.key === 'Enter' && joinRoom();
+          e.key === "Enter" && joinRoom();
         }}
       />
       <button onClick={joinRoom}>Join A Room</button>
