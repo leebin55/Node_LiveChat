@@ -4,13 +4,18 @@ import ScrollToBottom from "react-scroll-to-bottom";
 function Chat({ socket, username, room, setShowChat }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+  const [notice, setNotice] = useState(false);
 
+  // 채팅방 입장 할때 ** 님이 채팅방에 입장하였습니다.
   const joined_chat = async () => {
     await socket.on("notice_join", (username) => {
       console.log(`${username} joined this chat room`);
+      setNotice(true);
     });
   };
+
   const sendMessage = async () => {
+    // 입력창이 빈칸이 아닐때
     if (currentMessage !== "") {
       const messageData = {
         room: room,
@@ -21,16 +26,20 @@ function Chat({ socket, username, room, setShowChat }) {
           ":" +
           new Date(Date.now()).getMinutes(),
       };
-
+      // messageData를 server에 sende_message로 보냄
       await socket.emit("send_message", messageData);
+      // messageList에 massageDate추가
       setMessageList((list) => [...list, messageData]);
+      // 입력창 빈칸으로 만들기
       setCurrentMessage("");
     }
   };
   const exitChat = () => {
     // socket 연결 끊기
     socket.emit("disconnection");
+    // exit_chat을 server로 uername과 room을 함께 보냄
     socket.emit("exit_chat", { username, room });
+    // Join화면으로
     setShowChat(false);
     socket.on("left_user", (username) => {});
   };
@@ -55,27 +64,31 @@ function Chat({ socket, username, room, setShowChat }) {
         <span className="chat-span">Welcome to ' {room} ' </span>
       </div>
       <div className="chat-body">
-        <ScrollToBottom className="message-container">
-          {messageList.map((messageContent, index) => {
-            return (
-              <div
-                key={index}
-                className="message"
-                id={username === messageContent.author ? "you" : "other"}
-              >
-                <div>
-                  <div className="message-content">
-                    <p>{messageContent.message}</p>
-                  </div>
-                  <div className="message-meta">
-                    <p id="time">{messageContent.time}</p>
-                    <p id="author">{messageContent.author}</p>
+        {notice ? (
+          <p>true</p>
+        ) : (
+          <ScrollToBottom className="message-container">
+            {messageList.map((messageContent, index) => {
+              return (
+                <div
+                  key={index}
+                  className="message"
+                  id={username === messageContent.author ? "you" : "other"}
+                >
+                  <div>
+                    <div className="message-content">
+                      <p>{messageContent.message}</p>
+                    </div>
+                    <div className="message-meta">
+                      <p id="time">{messageContent.time}</p>
+                      <p id="author">{messageContent.author}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </ScrollToBottom>
+              );
+            })}
+          </ScrollToBottom>
+        )}
       </div>
       <div className="chat-footer">
         <input
